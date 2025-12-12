@@ -1,6 +1,6 @@
 # Science Animations
 
-Wissenschaftliche Animationen mit [Manim](https://www.manim.community/) (4K, 60fps).
+Standalone scientific animations with [Manim](https://www.manim.community/). Each animation is self-contained with no external dependencies.
 
 ## Installation
 
@@ -8,23 +8,45 @@ Wissenschaftliche Animationen mit [Manim](https://www.manim.community/) (4K, 60f
 pip install manim numpy
 ```
 
-## Verwendung
+## Rendering
 
 ```bash
-manim -qk --fps 60 physics/heating_curve.py HeatingCurveDE
+# 4K (3840x2160), 60fps
+manim -qk --fps 60 <file.py> <ClassName>
 ```
 
-## Animationen
+## Animations
 
-| Datei | Beschreibung |
-|-------|--------------|
-| `physics/heating_curve.py` | Erwärmungskurve von Wasser |
+### Physics
 
-## Sprachen
+| File | Animation | Classes |
+|------|-----------|---------|
+| `physics/thermodynamics/heating_curve.py` | Heating Curve of Water | `HeatingCurveDE`, `HeatingCurveEN` |
 
-- `*DE` - Deutsch
-- `*EN` - Englisch
+### Chemistry
 
-## Lizenz
+| File | Animation | Classes |
+|------|-----------|---------|
+| `chemistry/elements/001_hydrogen_atom.py` | Hydrogen Atom (Bohr Model) | `HydrogenAtomDE`, `HydrogenAtomEN` |
+| `chemistry/elements/092_uranium_atom.py` | Uranium Atom (Bohr Model) | `UraniumAtomDE`, `UraniumAtomEN` |
+
+## Languages
+
+All animations are available in German (`*DE`) and English (`*EN`).
+
+## Structure
+
+```
+science-animations/
+├── physics/
+│   └── thermodynamics/
+│       └── heating_curve.py
+└── chemistry/
+    └── elements/
+        ├── 001_hydrogen_atom.py
+        └── 092_uranium_atom.py
+```
+
+## License
 
 MIT License
