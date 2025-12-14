@@ -2,21 +2,78 @@
 
 Standalone scientific animations with [Manim](https://www.manim.community/). Each animation is self-contained with no external dependencies.
 
-## Installation
+## Requirements
+
+### System Dependencies
+
+**ffmpeg** is required for video encoding:
+
+```bash
+# Arch Linux
+sudo pacman -S ffmpeg
+
+# Ubuntu/Debian
+sudo apt install ffmpeg
+
+# macOS
+brew install ffmpeg
+
+# Windows
+# Download from https://ffmpeg.org/download.html
+```
+
+### Python Dependencies
+
+Python 3.8+ required.
 
 ```bash
 pip install manim numpy
 ```
 
-## Rendering
+Or with virtual environment (recommended):
 
 ```bash
-# 4K (3840x2160), 60fps
-manim -qk --fps 60 <file.py> <ClassName>
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+# venv\Scripts\activate   # Windows
+pip install manim numpy
+```
 
-# Example
-manim -qk --fps 60 chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
-manim -qk --fps 60 chemistry/elements/079_gold_atom.py GoldAtomEN
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Maik-0000FF/science-animations.git
+cd science-animations
+
+# Render an animation (uses manim.cfg for settings)
+manim render chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
+
+# Output: media/videos/001_hydrogen_atom/1080p60/HydrogenAtomDE.mp4
+```
+
+## Configuration
+
+The included `manim.cfg` provides default settings:
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| background_color | #1a1a2e | Dark blue background |
+| frame_rate | 60 | 60 fps |
+| pixel_width | 3840 | 4K width |
+| pixel_height | 2160 | 4K height |
+
+### Quality Presets
+
+```bash
+# Preview (480p, fast)
+manim render -ql chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
+
+# HD (1080p)
+manim render -qh chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
+
+# 4K (uses manim.cfg settings)
+manim render -qk chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
 ```
 
 ## Animations
@@ -51,15 +108,17 @@ All animations are available in German (`*DE`) and English (`*EN`).
 
 ```
 science-animations/
+├── manim.cfg                 # Manim configuration (background, resolution)
+├── chemistry/
+│   └── elements/
+│       ├── 001_hydrogen_atom.py
+│       ├── 002_helium_atom.py
+│       ├── ...
+│       └── 118_oganesson_atom.py
 ├── physics/
 │   └── thermodynamics/
 │       └── heating_curve.py
-└── chemistry/
-    └── elements/
-        ├── 001_hydrogen_atom.py
-        ├── 002_helium_atom.py
-        ├── ...
-        └── 118_oganesson_atom.py
+└── media/                    # Output directory (generated)
 ```
 
 ## Element Groups
