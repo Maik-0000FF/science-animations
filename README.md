@@ -39,6 +39,12 @@ source venv/bin/activate  # Linux/macOS
 pip install manim numpy
 ```
 
+## Example
+
+An example video is included in the repository:
+
+**[examples/HydrogenAtomDE.mp4](examples/HydrogenAtomDE.mp4)** - Hydrogen atom (1080p, 60fps)
+
 ## Quick Start
 
 ```bash
@@ -109,6 +115,8 @@ All animations are available in German (`*DE`) and English (`*EN`).
 ```
 science-animations/
 ├── manim.cfg                 # Manim configuration (background, resolution)
+├── examples/
+│   └── HydrogenAtomDE.mp4    # Example output (1080p, 60fps)
 ├── chemistry/
 │   └── elements/
 │       ├── 001_hydrogen_atom.py
