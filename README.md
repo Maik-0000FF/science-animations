@@ -100,12 +100,6 @@ Bohr atomic models for all elements of the periodic table.
 
 **Complete list:** `chemistry/elements/001_hydrogen_atom.py` through `chemistry/elements/118_oganesson_atom.py`
 
-### Physics
-
-| File | Animation | Classes |
-|------|-----------|---------|
-| `physics/thermodynamics/heating_curve.py` | Heating Curve of Water | `HeatingCurveDE`, `HeatingCurveEN` |
-
 ## Languages
 
 All animations are available in German (`*DE`) and English (`*EN`).
@@ -124,9 +118,6 @@ science-animations/
 │       ├── 002_helium_atom.py
 │       ├── ...
 │       └── 118_oganesson_atom.py
-├── physics/
-│   └── thermodynamics/
-│       └── heating_curve.py
 └── media/                    # Output directory (generated)
 ```
 
