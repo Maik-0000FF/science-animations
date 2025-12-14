@@ -1,13 +1,4 @@
-"""
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
-
-Animation zeigt:
-1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
-"""
-
+"""Das Fleroviumatom - YouTube Version (16:9, 4K)"""
 from manim import *
 import numpy as np
 
@@ -135,23 +126,16 @@ def get_text(lang="de"):
     """Gibt die Texte in der gewaehlten Sprache zurueck / Returns texts in selected language"""
     return TEXT_DE if lang == "de" else TEXT_EN
 
-
-# =============================================================================
-# ELEMENT-SPEZIFISCHE DATEN
-# =============================================================================
-
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
-ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
-
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
-
+ELEMENT_SYMBOL = "Fl"
+ELEMENT_NUMBER = 114
+ELEMENT_NAME_DE = "Flerovium"
+ELEMENT_NAME_EN = "Flerovium"
+ELEMENT_LATIN = "Flerovium"
+ELEMENT_MASS = "289 u"
+ELEMENT_GROUP = "post_transition"
+ELEMENT_PROTONS = 114
+ELEMENT_NEUTRONS = 175
+ELECTRON_CONFIG = [2, 8, 18, 32, 32, 18, 4]
 
 def get_active_shells():
     shells = []
@@ -160,278 +144,148 @@ def get_active_shells():
             shells.append((SHELL_NAMES[i], count, SHELL_COLORS[SHELL_NAMES[i]]))
     return shells
 
-
-class HydrogenAtom(Scene):
+class FleroviumAtom(Scene):
     ELEMENT_GROUP = ELEMENT_GROUP
-
     def __init__(self, lang="de", **kwargs):
         self.lang = lang
         self.text = get_text(lang)
         self.element_color = ELEMENT_COLORS.get(self.ELEMENT_GROUP, WHITE)
         super().__init__(**kwargs)
-
     def create_element_box(self, symbol, number, group, size=0.7):
-        """Erstellt eine Elementbox fuer das Periodensystem.
-
-        HINWEIS: Nur Symbol wird angezeigt (keine Ordnungszahl).
-        font_size < 10 verursacht SVG-Parsing-Fehler in Manim.
-        """
         color = ELEMENT_COLORS.get(group, WHITE)
         box = VGroup()
-
-        bg = RoundedRectangle(
-            width=size, height=size,
-            corner_radius=0.03,
-            fill_color=color,
-            fill_opacity=0.3,
-            stroke_color=color,
-            stroke_width=1
-        )
-
+        bg = RoundedRectangle(width=size, height=size, corner_radius=0.03, fill_color=color, fill_opacity=0.3, stroke_color=color, stroke_width=1)
         sym_text = Text(symbol, font_size=16, color=WHITE, weight=BOLD)
         sym_text.move_to(bg.get_center())
-
         box.add(bg, sym_text)
         return box
-
     def create_periodic_table(self):
         table = VGroup()
         target_box = None
         cell_size = 0.7
         gap = 0.05
-
         for (col, row), (symbol, number, group) in PERIODIC_TABLE.items():
             box = self.create_element_box(symbol, number, group, size=cell_size)
             x = col * (cell_size + gap)
             y = -(row + 0.5) * (cell_size + gap) if row >= 8 else -row * (cell_size + gap)
             box.move_to([x, y, 0])
             table.add(box)
-
             if symbol == ELEMENT_SYMBOL:
                 target_box = box
-
         table.move_to(ORIGIN)
         return table, target_box
-
     def create_element_detail_box(self):
         box = VGroup()
-
-        bg = RoundedRectangle(
-            width=4, height=5.5,
-            corner_radius=0.2,
-            fill_color=self.element_color,
-            fill_opacity=0.3,
-            stroke_color=self.element_color,
-            stroke_width=3
-        )
-
+        bg = RoundedRectangle(width=4, height=5.5, corner_radius=0.2, fill_color=self.element_color, fill_opacity=0.3, stroke_color=self.element_color, stroke_width=3)
         num_label = Text(self.text["atomic_number"] + ":", font_size=20, color=GRAY)
         num_value = Text(str(ELEMENT_NUMBER), font_size=24, color=WHITE, weight=BOLD)
         num_group = VGroup(num_label, num_value).arrange(RIGHT, buff=0.2)
         num_group.move_to(bg.get_top() + DOWN * 0.5)
-
         symbol = Text(ELEMENT_SYMBOL, font_size=100, color=self.element_color, weight=BOLD)
         symbol.move_to(bg.get_center() + UP * 0.4)
-
-        name = Text(ELEMENT_NAME_EN if self.lang == "en" else ELEMENT_NAME_DE,
-                    font_size=26, color=WHITE)
+        name = Text(ELEMENT_NAME_EN if self.lang == "en" else ELEMENT_NAME_DE, font_size=26, color=WHITE)
         name.move_to(bg.get_center() + DOWN * 0.7)
-
         latin_label = Text(self.text["latin_name"] + ":", font_size=16, color=GRAY)
         latin_value = Text(ELEMENT_LATIN, font_size=18, color=WHITE, slant=ITALIC)
         latin_group = VGroup(latin_label, latin_value).arrange(RIGHT, buff=0.2)
         latin_group.move_to(bg.get_center() + DOWN * 1.2)
-
         mass_label = Text(self.text["mass_number"] + ":", font_size=18, color=GRAY)
         mass_value = Text(ELEMENT_MASS, font_size=20, color=WHITE)
         mass_group = VGroup(mass_label, mass_value).arrange(RIGHT, buff=0.2)
         mass_group.move_to(bg.get_bottom() + UP * 0.6)
-
         box.add(bg, num_group, symbol, name, latin_group, mass_group)
         return box
-
     def create_bohr_model(self):
-        """
-        Erstellt das Bohr-Atommodell.
-
-        KONSISTENTE WERTE (basierend auf groesstem Element):
-        - Aeusserste Schale: Radius 2.75 (Durchmesser = Kartenhoehe 5.5)
-        - Kern-Radius: 0.35
-        - Elektronen-Radius: 0.08
-        - Base-Radius: 0.5, Radius-Step: 0.375
-        """
         model = VGroup()
         active_shells = get_active_shells()
-
-        # === KONSISTENTE GROESSEN ===
         NUCLEUS_RADIUS = 0.35
         ELECTRON_RADIUS = 0.08
         BASE_RADIUS = 0.5
-        RADIUS_STEP = 0.375  # (2.75 - 0.5) / 6 fuer 7 Schalen
-
-        # === ATOMKERN ===
-        nucleus = Circle(
-            radius=NUCLEUS_RADIUS,
-            fill_color=COLORS["proton"],
-            fill_opacity=0.9,
-            stroke_color=WHITE,
-            stroke_width=2
-        )
-
+        RADIUS_STEP = 0.375
+        nucleus = Circle(radius=NUCLEUS_RADIUS, fill_color=COLORS["proton"], fill_opacity=0.9, stroke_color=WHITE, stroke_width=2)
         proton_text = Text(f"{ELEMENT_PROTONS}p+", font_size=12, color=WHITE, weight=BOLD)
         neutron_text = Text(f"{ELEMENT_NEUTRONS}n", font_size=12, color=WHITE, weight=BOLD)
         nucleus_content = VGroup(proton_text, neutron_text).arrange(DOWN, buff=0.03)
         nucleus_content.move_to(nucleus)
-
         nucleus_group = VGroup(nucleus, nucleus_content)
-
         nucleus_label = Text(self.text["nucleus"], font_size=14, color=COLORS["proton"])
         nucleus_label.next_to(nucleus_group, UP, buff=0.2)
-
         model.add(nucleus_group, nucleus_label)
-
-        # === ELEKTRONENSCHALEN ===
         electron_groups = []
-
         for i, (shell_name, electron_count, shell_color) in enumerate(active_shells):
             orbit_radius = BASE_RADIUS + i * RADIUS_STEP
-
-            orbit = Circle(
-                radius=orbit_radius,
-                stroke_color=shell_color,
-                stroke_width=1.5,
-                stroke_opacity=0.6
-            )
+            orbit = Circle(radius=orbit_radius, stroke_color=shell_color, stroke_width=1.5, stroke_opacity=0.6)
             orbit_dashed = DashedVMobject(orbit, num_dashes=20 + i * 8)
             model.add(orbit_dashed)
-
             electrons = VGroup()
-
             for j in range(electron_count):
                 angle = 2 * PI * j / electron_count
-
-                electron = Circle(
-                    radius=ELECTRON_RADIUS,
-                    fill_color=shell_color,
-                    fill_opacity=1,
-                    stroke_color=WHITE,
-                    stroke_width=1
-                )
-                electron.move_to([
-                    orbit_radius * np.cos(angle),
-                    orbit_radius * np.sin(angle),
-                    0
-                ])
+                electron = Circle(radius=ELECTRON_RADIUS, fill_color=shell_color, fill_opacity=1, stroke_color=WHITE, stroke_width=1)
+                electron.move_to([orbit_radius * np.cos(angle), orbit_radius * np.sin(angle), 0])
                 electrons.add(electron)
-
             electron_groups.append(electrons)
             model.add(electrons)
-
-            shell_label = Text(
-                f"{shell_name}: {electron_count}",
-                font_size=10,
-                color=shell_color
-            )
+            shell_label = Text(f"{shell_name}: {electron_count}", font_size=10, color=shell_color)
             label_angle = -PI / 2
-            shell_label.move_to([
-                (orbit_radius + 0.2) * np.cos(label_angle),
-                (orbit_radius + 0.2) * np.sin(label_angle),
-                0
-            ])
+            shell_label.move_to([(orbit_radius + 0.2) * np.cos(label_angle), (orbit_radius + 0.2) * np.sin(label_angle), 0])
             model.add(shell_label)
-
         return model, electron_groups, nucleus_group
-
     def construct(self):
         title = Text(ELEMENT_NAME_EN if self.lang == "en" else ELEMENT_NAME_DE, font_size=42, color=WHITE)
         title.to_edge(UP, buff=0.5)
-
         pt_title = Text(self.text["periodic_table"], font_size=32, color=WHITE)
         pt_title.to_edge(UP, buff=0.5)
-
         table, target_box = self.create_periodic_table()
         table.scale(0.65)
         table.move_to(ORIGIN + DOWN * 0.5)
-
         self.play(Write(pt_title), run_time=1)
         self.play(FadeIn(table), run_time=2)
         self.wait(1)
-
-        highlight_rect = SurroundingRectangle(
-            target_box, color=self.element_color,
-            stroke_width=4, buff=0.05
-        )
+        highlight_rect = SurroundingRectangle(target_box, color=self.element_color, stroke_width=4, buff=0.05)
         self.play(Create(highlight_rect), run_time=0.5)
-        self.play(highlight_rect.animate.set_stroke(width=6),
-                 rate_func=there_and_back, run_time=0.5)
+        self.play(highlight_rect.animate.set_stroke(width=6), rate_func=there_and_back, run_time=0.5)
         self.wait(0.5)
-
         other_elements = VGroup(*[elem for elem in table if elem != target_box])
-
-        self.play(
-            FadeOut(other_elements),
-            FadeOut(highlight_rect),
-            FadeOut(pt_title),
-            run_time=1
-        )
-
+        self.play(FadeOut(other_elements), FadeOut(highlight_rect), FadeOut(pt_title), run_time=1)
         detail_box = self.create_element_detail_box()
         detail_box.move_to(LEFT * 4)
-
         self.play(ReplacementTransform(target_box, detail_box), run_time=1.5)
         self.wait(0.5)
-
         self.play(Write(title), run_time=1)
-
         model, electron_groups, nucleus_group = self.create_bohr_model()
-        # Kern-Zentrierung: Kern bei (2.5, 0) - gleiche Hoehe wie Kartenzentrum
         nucleus_offset = nucleus_group.get_center()
         model.shift([2.5 - nucleus_offset[0], 0 - nucleus_offset[1], 0])
-
-
         self.play(FadeIn(model[0]), run_time=1)
         self.play(Write(model[1]), run_time=0.5)
         self.wait(0.3)
-
         idx = 2
         for i in range(len(get_active_shells())):
             self.play(Create(model[idx]), run_time=0.6)
             self.play(FadeIn(model[idx + 1]), Write(model[idx + 2]), run_time=0.4)
             idx += 3
-
         self.wait(0.5)
-
         center = nucleus_group.get_center()
-
         updaters = []
         for i, electrons in enumerate(electron_groups):
             speed = 2.0 - i * 0.3
             if speed < 0.5:
                 speed = 0.5
-
             def make_updater(spd):
                 return lambda mob, dt: mob.rotate(dt * spd, about_point=center)
-
             updater = make_updater(speed)
             electrons.add_updater(updater)
             updaters.append((electrons, updater))
-
         self.wait(4)
-
         for electrons, updater in updaters:
             electrons.remove_updater(updater)
-
         self.wait(1)
-
         self.play(FadeOut(VGroup(title, detail_box, model)), run_time=1.5)
         self.wait(0.5)
 
-
-class HydrogenAtomDE(HydrogenAtom):
+class FleroviumAtomDE(FleroviumAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
-
-class HydrogenAtomEN(HydrogenAtom):
+class FleroviumAtomEN(FleroviumAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)

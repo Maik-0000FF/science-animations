@@ -1,11 +1,10 @@
 """
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
+Oganesson (Og) - Ordnungszahl 118
+Das schwerste Element im Periodensystem
 
-Animation zeigt:
-1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
+Verwendung:
+    manim -qk --fps 60 chemistry/elements/118_oganesson_atom.py OganessonAtomDE
+    manim -qk --fps 60 chemistry/elements/118_oganesson_atom.py OganessonAtomEN
 """
 
 from manim import *
@@ -135,25 +134,34 @@ def get_text(lang="de"):
     """Gibt die Texte in der gewaehlten Sprache zurueck / Returns texts in selected language"""
     return TEXT_DE if lang == "de" else TEXT_EN
 
+from chemistry import PERIODIC_TABLE, ELEMENT_COLORS
+
 
 # =============================================================================
 # ELEMENT-SPEZIFISCHE DATEN
 # =============================================================================
 
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
-ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
+ELEMENT_SYMBOL = "Og"
+ELEMENT_NUMBER = 118
+ELEMENT_NAME_DE = "Oganesson"
+ELEMENT_NAME_EN = "Oganesson"
+ELEMENT_LATIN = "Oganessonum"
+ELEMENT_MASS = "[294] u"
+ELEMENT_GROUP = "noble"
+ELEMENT_PROTONS = 118
+ELEMENT_NEUTRONS = 176
 
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
+# Elektronenkonfiguration: [K, L, M, N, O, P, Q]
+# [Rn] 5f14 6d10 7s2 7p6 = 2 + 8 + 18 + 32 + 32 + 18 + 8 = 118
+ELECTRON_CONFIG = [2, 8, 18, 32, 32, 18, 8]
 
+
+# =============================================================================
+# HILFSFUNKTIONEN
+# =============================================================================
 
 def get_active_shells():
+    """Gibt die aktiven Schalen zurueck (nicht-leere)."""
     shells = []
     for i, count in enumerate(ELECTRON_CONFIG):
         if count > 0:
@@ -161,7 +169,18 @@ def get_active_shells():
     return shells
 
 
-class HydrogenAtom(Scene):
+def get_total_electrons():
+    """Gibt die Gesamtzahl der Elektronen zurueck."""
+    return sum(ELECTRON_CONFIG)
+
+
+# =============================================================================
+# YOUTUBE VERSION (16:9)
+# =============================================================================
+
+class OganessonAtom(Scene):
+    """Oganesson-Atom Animation im 16:9 Format."""
+
     ELEMENT_GROUP = ELEMENT_GROUP
 
     def __init__(self, lang="de", **kwargs):
@@ -170,6 +189,12 @@ class HydrogenAtom(Scene):
         self.element_color = ELEMENT_COLORS.get(self.ELEMENT_GROUP, WHITE)
         super().__init__(**kwargs)
 
+    def get_title(self):
+        """Gibt den Titel basierend auf Sprache zurueck."""
+        if self.lang == "de":
+            return ELEMENT_NAME_DE
+        return ELEMENT_NAME_EN
+
     def create_element_box(self, symbol, number, group, size=0.7):
         """Erstellt eine Elementbox fuer das Periodensystem.
 
@@ -177,6 +202,7 @@ class HydrogenAtom(Scene):
         font_size < 10 verursacht SVG-Parsing-Fehler in Manim.
         """
         color = ELEMENT_COLORS.get(group, WHITE)
+
         box = VGroup()
 
         bg = RoundedRectangle(
@@ -195,15 +221,22 @@ class HydrogenAtom(Scene):
         return box
 
     def create_periodic_table(self):
+        """Erstellt das vollstaendige Periodensystem."""
         table = VGroup()
         target_box = None
+
         cell_size = 0.7
         gap = 0.05
 
         for (col, row), (symbol, number, group) in PERIODIC_TABLE.items():
             box = self.create_element_box(symbol, number, group, size=cell_size)
+
             x = col * (cell_size + gap)
-            y = -(row + 0.5) * (cell_size + gap) if row >= 8 else -row * (cell_size + gap)
+            if row >= 8:
+                y = -(row + 0.5) * (cell_size + gap)
+            else:
+                y = -row * (cell_size + gap)
+
             box.move_to([x, y, 0])
             table.add(box)
 
@@ -214,6 +247,7 @@ class HydrogenAtom(Scene):
         return table, target_box
 
     def create_element_detail_box(self):
+        """Erstellt die detaillierte Elementkarte."""
         box = VGroup()
 
         bg = RoundedRectangle(
@@ -225,23 +259,28 @@ class HydrogenAtom(Scene):
             stroke_width=3
         )
 
+        # Ordnungszahl
         num_label = Text(self.text["atomic_number"] + ":", font_size=20, color=GRAY)
         num_value = Text(str(ELEMENT_NUMBER), font_size=24, color=WHITE, weight=BOLD)
         num_group = VGroup(num_label, num_value).arrange(RIGHT, buff=0.2)
         num_group.move_to(bg.get_top() + DOWN * 0.5)
 
+        # Symbol
         symbol = Text(ELEMENT_SYMBOL, font_size=100, color=self.element_color, weight=BOLD)
         symbol.move_to(bg.get_center() + UP * 0.4)
 
+        # Name
         name = Text(ELEMENT_NAME_EN if self.lang == "en" else ELEMENT_NAME_DE,
                     font_size=26, color=WHITE)
         name.move_to(bg.get_center() + DOWN * 0.7)
 
+        # Lateinischer Name
         latin_label = Text(self.text["latin_name"] + ":", font_size=16, color=GRAY)
         latin_value = Text(ELEMENT_LATIN, font_size=18, color=WHITE, slant=ITALIC)
         latin_group = VGroup(latin_label, latin_value).arrange(RIGHT, buff=0.2)
         latin_group.move_to(bg.get_center() + DOWN * 1.2)
 
+        # Masse
         mass_label = Text(self.text["mass_number"] + ":", font_size=18, color=GRAY)
         mass_value = Text(ELEMENT_MASS, font_size=20, color=WHITE)
         mass_group = VGroup(mass_label, mass_value).arrange(RIGHT, buff=0.2)
@@ -343,29 +382,39 @@ class HydrogenAtom(Scene):
         return model, electron_groups, nucleus_group
 
     def construct(self):
-        title = Text(ELEMENT_NAME_EN if self.lang == "en" else ELEMENT_NAME_DE, font_size=42, color=WHITE)
+        """Hauptanimation."""
+        # Titel
+        title = Text(self.get_title(), font_size=42, color=WHITE)
         title.to_edge(UP, buff=0.5)
 
+        # Periodensystem-Titel
         pt_title = Text(self.text["periodic_table"], font_size=32, color=WHITE)
         pt_title.to_edge(UP, buff=0.5)
 
+        # Periodensystem erstellen
         table, target_box = self.create_periodic_table()
         table.scale(0.65)
         table.move_to(ORIGIN + DOWN * 0.5)
 
+        # Phase 1: Periodensystem zeigen
         self.play(Write(pt_title), run_time=1)
         self.play(FadeIn(table), run_time=2)
         self.wait(1)
 
+        # Element hervorheben
         highlight_rect = SurroundingRectangle(
             target_box, color=self.element_color,
             stroke_width=4, buff=0.05
         )
         self.play(Create(highlight_rect), run_time=0.5)
-        self.play(highlight_rect.animate.set_stroke(width=6),
-                 rate_func=there_and_back, run_time=0.5)
+        self.play(
+            highlight_rect.animate.set_stroke(width=6),
+            rate_func=there_and_back,
+            run_time=0.5
+        )
         self.wait(0.5)
 
+        # Phase 2: Zoom auf Element
         other_elements = VGroup(*[elem for elem in table if elem != target_box])
 
         self.play(
@@ -375,37 +424,56 @@ class HydrogenAtom(Scene):
             run_time=1
         )
 
+        # Detailkarte erstellen
         detail_box = self.create_element_detail_box()
         detail_box.move_to(LEFT * 4)
 
-        self.play(ReplacementTransform(target_box, detail_box), run_time=1.5)
+        self.play(
+            ReplacementTransform(target_box, detail_box),
+            run_time=1.5
+        )
         self.wait(0.5)
 
+        # Titel einblenden
         self.play(Write(title), run_time=1)
 
+        # Phase 3: Atommodell zeigen
         model, electron_groups, nucleus_group = self.create_bohr_model()
+
         # Kern-Zentrierung: Kern bei (2.5, 0) - gleiche Hoehe wie Kartenzentrum
         nucleus_offset = nucleus_group.get_center()
         model.shift([2.5 - nucleus_offset[0], 0 - nucleus_offset[1], 0])
 
+        # Modell schrittweise einblenden
+        nucleus_label = model[1]
 
-        self.play(FadeIn(model[0]), run_time=1)
-        self.play(Write(model[1]), run_time=0.5)
+        self.play(FadeIn(nucleus_group), run_time=1)
+        self.play(Write(nucleus_label), run_time=0.5)
         self.wait(0.3)
 
-        idx = 2
-        for i in range(len(get_active_shells())):
-            self.play(Create(model[idx]), run_time=0.6)
-            self.play(FadeIn(model[idx + 1]), Write(model[idx + 2]), run_time=0.4)
-            idx += 3
+        # Dann Schalen nacheinander
+        active_shells = get_active_shells()
+        model_index = 2  # Nach Kern und Kern-Label
+
+        for i in range(len(active_shells)):
+            orbit_dashed = model[model_index]
+            electrons = model[model_index + 1]
+            shell_label = model[model_index + 2]
+
+            self.play(Create(orbit_dashed), run_time=0.6)
+            self.play(FadeIn(electrons), Write(shell_label), run_time=0.4)
+
+            model_index += 3
 
         self.wait(0.5)
 
+        # Phase 4: Elektronen-Animation
         center = nucleus_group.get_center()
 
+        # Updater fuer jede Schale mit unterschiedlicher Geschwindigkeit
         updaters = []
         for i, electrons in enumerate(electron_groups):
-            speed = 2.0 - i * 0.3
+            speed = 2.0 - i * 0.3  # Innere Schalen schneller
             if speed < 0.5:
                 speed = 0.5
 
@@ -418,20 +486,27 @@ class HydrogenAtom(Scene):
 
         self.wait(4)
 
+        # Updater entfernen
         for electrons, updater in updaters:
             electrons.remove_updater(updater)
 
         self.wait(1)
 
-        self.play(FadeOut(VGroup(title, detail_box, model)), run_time=1.5)
+        # Ende
+        self.play(
+            FadeOut(VGroup(title, detail_box, model)),
+            run_time=1.5
+        )
         self.wait(0.5)
 
 
-class HydrogenAtomDE(HydrogenAtom):
+class OganessonAtomDE(OganessonAtom):
+    """Deutsche Version."""
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
 
-class HydrogenAtomEN(HydrogenAtom):
+class OganessonAtomEN(OganessonAtom):
+    """Englische Version."""
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)

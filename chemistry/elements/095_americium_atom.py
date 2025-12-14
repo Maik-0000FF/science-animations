@@ -1,11 +1,11 @@
 """
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
+Das Americiumatom - YouTube Version (16:9, 4K)
+The Americium Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
+2. Zoom auf Americium-Feld
+3. Vereinfachtes Bohr-Atommodell mit 7 Schale(n)
 """
 
 from manim import *
@@ -140,17 +140,17 @@ def get_text(lang="de"):
 # ELEMENT-SPEZIFISCHE DATEN
 # =============================================================================
 
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
-ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
+ELEMENT_SYMBOL = "Am"
+ELEMENT_NUMBER = 95
+ELEMENT_NAME_DE = "Americium"
+ELEMENT_NAME_EN = "Americium"
+ELEMENT_LATIN = "Americium"
+ELEMENT_MASS = "243 u"
+ELEMENT_GROUP = "actinide"
+ELEMENT_PROTONS = 95
+ELEMENT_NEUTRONS = 148
 
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
+ELECTRON_CONFIG = [2, 8, 18, 32, 25, 8, 2]
 
 
 def get_active_shells():
@@ -161,7 +161,7 @@ def get_active_shells():
     return shells
 
 
-class HydrogenAtom(Scene):
+class AmericiumAtom(Scene):
     ELEMENT_GROUP = ELEMENT_GROUP
 
     def __init__(self, lang="de", **kwargs):
@@ -171,11 +171,6 @@ class HydrogenAtom(Scene):
         super().__init__(**kwargs)
 
     def create_element_box(self, symbol, number, group, size=0.7):
-        """Erstellt eine Elementbox fuer das Periodensystem.
-
-        HINWEIS: Nur Symbol wird angezeigt (keine Ordnungszahl).
-        font_size < 10 verursacht SVG-Parsing-Fehler in Manim.
-        """
         color = ELEMENT_COLORS.get(group, WHITE)
         box = VGroup()
 
@@ -251,25 +246,14 @@ class HydrogenAtom(Scene):
         return box
 
     def create_bohr_model(self):
-        """
-        Erstellt das Bohr-Atommodell.
-
-        KONSISTENTE WERTE (basierend auf groesstem Element):
-        - Aeusserste Schale: Radius 2.75 (Durchmesser = Kartenhoehe 5.5)
-        - Kern-Radius: 0.35
-        - Elektronen-Radius: 0.08
-        - Base-Radius: 0.5, Radius-Step: 0.375
-        """
         model = VGroup()
         active_shells = get_active_shells()
 
-        # === KONSISTENTE GROESSEN ===
         NUCLEUS_RADIUS = 0.35
         ELECTRON_RADIUS = 0.08
         BASE_RADIUS = 0.5
-        RADIUS_STEP = 0.375  # (2.75 - 0.5) / 6 fuer 7 Schalen
+        RADIUS_STEP = 0.375
 
-        # === ATOMKERN ===
         nucleus = Circle(
             radius=NUCLEUS_RADIUS,
             fill_color=COLORS["proton"],
@@ -290,7 +274,6 @@ class HydrogenAtom(Scene):
 
         model.add(nucleus_group, nucleus_label)
 
-        # === ELEKTRONENSCHALEN ===
         electron_groups = []
 
         for i, (shell_name, electron_count, shell_color) in enumerate(active_shells):
@@ -384,10 +367,8 @@ class HydrogenAtom(Scene):
         self.play(Write(title), run_time=1)
 
         model, electron_groups, nucleus_group = self.create_bohr_model()
-        # Kern-Zentrierung: Kern bei (2.5, 0) - gleiche Hoehe wie Kartenzentrum
         nucleus_offset = nucleus_group.get_center()
         model.shift([2.5 - nucleus_offset[0], 0 - nucleus_offset[1], 0])
-
 
         self.play(FadeIn(model[0]), run_time=1)
         self.play(Write(model[1]), run_time=0.5)
@@ -427,11 +408,11 @@ class HydrogenAtom(Scene):
         self.wait(0.5)
 
 
-class HydrogenAtomDE(HydrogenAtom):
+class AmericiumAtomDE(AmericiumAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
 
-class HydrogenAtomEN(HydrogenAtom):
+class AmericiumAtomEN(AmericiumAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)

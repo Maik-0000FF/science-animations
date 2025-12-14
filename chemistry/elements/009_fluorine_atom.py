@@ -1,11 +1,11 @@
 """
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
+Das Fluoratom - YouTube Version (16:9, 4K)
+The Fluorine Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
+2. Zoom auf Fluor-Feld
+3. Vereinfachtes Bohr-Atommodell mit 2 Schale(n)
 """
 
 from manim import *
@@ -140,17 +140,17 @@ def get_text(lang="de"):
 # ELEMENT-SPEZIFISCHE DATEN
 # =============================================================================
 
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
-ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
+ELEMENT_SYMBOL = "F"
+ELEMENT_NUMBER = 9
+ELEMENT_NAME_DE = "Fluor"
+ELEMENT_NAME_EN = "Fluorine"
+ELEMENT_LATIN = "Fluorum"
+ELEMENT_MASS = "19.00 u"
+ELEMENT_GROUP = "halogen"
+ELEMENT_PROTONS = 9
+ELEMENT_NEUTRONS = 10
 
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
+ELECTRON_CONFIG = [2, 7, 0, 0, 0, 0, 0]
 
 
 def get_active_shells():
@@ -161,7 +161,7 @@ def get_active_shells():
     return shells
 
 
-class HydrogenAtom(Scene):
+class FluorineAtom(Scene):
     ELEMENT_GROUP = ELEMENT_GROUP
 
     def __init__(self, lang="de", **kwargs):
@@ -427,11 +427,11 @@ class HydrogenAtom(Scene):
         self.wait(0.5)
 
 
-class HydrogenAtomDE(HydrogenAtom):
+class FluorineAtomDE(FluorineAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
 
-class HydrogenAtomEN(HydrogenAtom):
+class FluorineAtomEN(FluorineAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)

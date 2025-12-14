@@ -1,11 +1,11 @@
 """
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
+Das Kohlenstoffatom - YouTube Version (16:9, 4K)
+The Carbon Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
+2. Zoom auf Kohlenstoff-Feld
+3. Vereinfachtes Bohr-Atommodell mit 2 Schale(n)
 """
 
 from manim import *
@@ -140,17 +140,17 @@ def get_text(lang="de"):
 # ELEMENT-SPEZIFISCHE DATEN
 # =============================================================================
 
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
+ELEMENT_SYMBOL = "C"
+ELEMENT_NUMBER = 6
+ELEMENT_NAME_DE = "Kohlenstoff"
+ELEMENT_NAME_EN = "Carbon"
+ELEMENT_LATIN = "Carboneum"
+ELEMENT_MASS = "12.01 u"
 ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
+ELEMENT_PROTONS = 6
+ELEMENT_NEUTRONS = 6
 
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
+ELECTRON_CONFIG = [2, 4, 0, 0, 0, 0, 0]
 
 
 def get_active_shells():
@@ -161,7 +161,7 @@ def get_active_shells():
     return shells
 
 
-class HydrogenAtom(Scene):
+class CarbonAtom(Scene):
     ELEMENT_GROUP = ELEMENT_GROUP
 
     def __init__(self, lang="de", **kwargs):
@@ -427,11 +427,11 @@ class HydrogenAtom(Scene):
         self.wait(0.5)
 
 
-class HydrogenAtomDE(HydrogenAtom):
+class CarbonAtomDE(CarbonAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
 
-class HydrogenAtomEN(HydrogenAtom):
+class CarbonAtomEN(CarbonAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)

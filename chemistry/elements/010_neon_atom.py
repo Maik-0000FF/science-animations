@@ -1,11 +1,11 @@
 """
-Das Wasserstoffatom - YouTube Version (16:9, 4K)
-The Hydrogen Atom
+Das Neonatom - YouTube Version (16:9, 4K)
+The Neon Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Wasserstoff-Feld
-3. Vereinfachtes Bohr-Atommodell mit 1 Schale(n)
+2. Zoom auf Neon-Feld
+3. Vereinfachtes Bohr-Atommodell mit 2 Schale(n)
 """
 
 from manim import *
@@ -140,17 +140,17 @@ def get_text(lang="de"):
 # ELEMENT-SPEZIFISCHE DATEN
 # =============================================================================
 
-ELEMENT_SYMBOL = "H"
-ELEMENT_NUMBER = 1
-ELEMENT_NAME_DE = "Wasserstoff"
-ELEMENT_NAME_EN = "Hydrogen"
-ELEMENT_LATIN = "Hydrogenium"
-ELEMENT_MASS = "1.008 u"
-ELEMENT_GROUP = "nonmetal"
-ELEMENT_PROTONS = 1
-ELEMENT_NEUTRONS = 0
+ELEMENT_SYMBOL = "Ne"
+ELEMENT_NUMBER = 10
+ELEMENT_NAME_DE = "Neon"
+ELEMENT_NAME_EN = "Neon"
+ELEMENT_LATIN = "Neon"
+ELEMENT_MASS = "20.18 u"
+ELEMENT_GROUP = "noble"
+ELEMENT_PROTONS = 10
+ELEMENT_NEUTRONS = 10
 
-ELECTRON_CONFIG = [1, 0, 0, 0, 0, 0, 0]
+ELECTRON_CONFIG = [2, 8, 0, 0, 0, 0, 0]
 
 
 def get_active_shells():
@@ -161,7 +161,7 @@ def get_active_shells():
     return shells
 
 
-class HydrogenAtom(Scene):
+class NeonAtom(Scene):
     ELEMENT_GROUP = ELEMENT_GROUP
 
     def __init__(self, lang="de", **kwargs):
@@ -427,11 +427,11 @@ class HydrogenAtom(Scene):
         self.wait(0.5)
 
 
-class HydrogenAtomDE(HydrogenAtom):
+class NeonAtomDE(NeonAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="de", **kwargs)
 
 
-class HydrogenAtomEN(HydrogenAtom):
+class NeonAtomEN(NeonAtom):
     def __init__(self, **kwargs):
         super().__init__(lang="en", **kwargs)
