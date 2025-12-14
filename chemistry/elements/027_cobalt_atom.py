@@ -1,10 +1,10 @@
 """
-Das Kobaltatom - YouTube Version (16:9, 4K)
+Das Cobaltatom - YouTube Version (16:9, 4K)
 The Cobalt Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
-2. Zoom auf Kobalt-Feld
+2. Zoom auf Cobalt-Feld
 3. Vereinfachtes Bohr-Atommodell mit 4 Schale(n)
 """
 
@@ -142,7 +142,7 @@ def get_text(lang="de"):
 
 ELEMENT_SYMBOL = "Co"
 ELEMENT_NUMBER = 27
-ELEMENT_NAME_DE = "Kobalt"
+ELEMENT_NAME_DE = "Cobalt"
 ELEMENT_NAME_EN = "Cobalt"
 ELEMENT_LATIN = "Cobaltum"
 ELEMENT_MASS = "58.93 u"

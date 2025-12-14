@@ -1,4 +1,4 @@
-"""Das Tennessineatom - YouTube Version (16:9, 4K)"""
+"""Das Tenessatom - YouTube Version (16:9, 4K)"""
 from manim import *
 import numpy as np
 
@@ -128,7 +128,7 @@ def get_text(lang="de"):
 
 ELEMENT_SYMBOL = "Ts"
 ELEMENT_NUMBER = 117
-ELEMENT_NAME_DE = "Tennessin"
+ELEMENT_NAME_DE = "Tenness"
 ELEMENT_NAME_EN = "Tennessine"
 ELEMENT_LATIN = "Tennessinum"
 ELEMENT_MASS = "294 u"

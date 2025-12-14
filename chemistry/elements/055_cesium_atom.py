@@ -1,6 +1,6 @@
 """
 Das Caesiumatom - YouTube Version (16:9, 4K)
-The Cesium Atom
+The Caesium Atom
 
 Animation zeigt:
 1. Vollstaendiges Periodensystem der Elemente
@@ -143,7 +143,7 @@ def get_text(lang="de"):
 ELEMENT_SYMBOL = "Cs"
 ELEMENT_NUMBER = 55
 ELEMENT_NAME_DE = "Caesium"
-ELEMENT_NAME_EN = "Cesium"
+ELEMENT_NAME_EN = "Caesium"
 ELEMENT_LATIN = "Caesium"
 ELEMENT_MASS = "132.91 u"
 ELEMENT_GROUP = "alkali"
