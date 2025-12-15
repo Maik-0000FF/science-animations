@@ -84,6 +84,20 @@ manim render -qk chemistry/elements/001_hydrogen_atom.py HydrogenAtomDE
 
 ## Animations
 
+### Physics - Thermodynamics
+
+| Animation | File | Classes |
+|-----------|------|---------|
+| Heating Curve of Water | `physics/thermodynamics/heating_curve.py` | `HeatingCurveDE`, `HeatingCurveEN` |
+
+```bash
+# Render heating curve (English)
+manim render -qh physics/thermodynamics/heating_curve.py HeatingCurveEN
+
+# Render heating curve (German)
+manim render -qh physics/thermodynamics/heating_curve.py HeatingCurveDE
+```
+
 ### Chemistry - All 118 Elements
 
 Bohr atomic models for all elements of the periodic table.
@@ -112,6 +126,9 @@ science-animations/
 ├── examples/
 │   ├── HydrogenAtomDE.gif    # Preview (720p, 30fps)
 │   └── HydrogenAtomDE.mp4    # Full quality (1080p, 60fps)
+├── physics/
+│   └── thermodynamics/
+│       └── heating_curve.py  # Heating curve of water
 ├── chemistry/
 │   └── elements/
 │       ├── 001_hydrogen_atom.py
